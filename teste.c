@@ -1,3 +1,6 @@
+//Tô usando esse arquivo pra editar e não quebrar o principal
+
+
 //Grupo 1
 //Nomes:
 //Igor Vinícius Gonçalves de Souza
@@ -116,11 +119,8 @@ void procurarMed(Medicamento medicamentos[], int count) {
             printf("\nUm ou mais medicamento(s) encontrado!\n");
             printf("\n---------------------------------------------\n");
             printf("\nID: %d\n", medicamentos[i].id);
-            printf("\nLote: %d\n", medicamentos[i].lote);
             printf("\nNome: %s\n", medicamentos[i].nome);
             printf("\nDescrição: %s\n", medicamentos[i].desc);
-            printf("\nFabricante: %s\n", medicamentos[i].fabr);
-            printf("\nValidade: %s\n", medicamentos[i].validade);
             printf("\nPreço: %.2f\n", medicamentos[i].preco);
             printf("\nQuantidade: %d\n", medicamentos[i].quantidade);
             
@@ -149,7 +149,7 @@ void mostrarTodos(Medicamento medicamentos[], int count) {
         printf("Nome: %s\n", medicamentos[i].nome);
         printf("Descrição: %s\n", medicamentos[i].desc);
         printf("Fabricante: %s\n", medicamentos[i].fabr);
-        printf("Validade: %s\n", medicamentos[i].validade);
+        printf("Fabricante: %s\n", medicamentos[i].validade);
         printf("Preço: %.2f\n", medicamentos[i].preco);
         printf("Quantidade: %d\n", medicamentos[i].quantidade);
     }
@@ -173,7 +173,7 @@ void editarMeds(Medicamento medicamentos[], int count){
             printf("Lote: %d\n", medicamentos[i].lote);
             printf("Nome: %s\n", medicamentos[i].nome);
             printf("Descrição: %s\n", medicamentos[i].desc);
-            printf("Fabricante: %s\n", medicamentos[i].fabr);
+            printf("Fabricação: %s\n", medicamentos[i].fabr);
             printf("Validade: %s\n", medicamentos[i].validade);
             printf("Preço: %.2f\n", medicamentos[i].preco);
             printf("Quantidade: %d\n", medicamentos[i].quantidade);
