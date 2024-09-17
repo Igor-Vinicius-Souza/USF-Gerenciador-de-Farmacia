@@ -20,10 +20,10 @@
 typedef struct {
     int id;
     int lote;
-    char nome[50];
-    char desc[50];
-    char fabr[20];
-    char validade[11];
+    char nome[20];
+    char desc[100];
+    char fabr[10];
+    char validade[10];
     float preco;
     int quantidade;
 } Medicamento;
