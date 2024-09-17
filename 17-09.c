@@ -96,7 +96,7 @@ void cadastrarMed(Medicamento medicamentos[], int *count){
 // 2 Procurar
 void procurarMed(Medicamento medicamentos[], int count) {
 
-    char medBusca[50]; // Array para armazenar o nome do medicamento a ser procurado
+    char medBusca[20]; // Array para armazenar o nome do medicamento a ser procurado
     int medEncontrado = 0;  // Verifica se o medicamento foi encontrado
     
     //criar uma lista temporaria para receber o medicamento encontrado e depois jogar ele no print
