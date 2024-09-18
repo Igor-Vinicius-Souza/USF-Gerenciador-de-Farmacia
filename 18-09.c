@@ -5,7 +5,7 @@
 //Leticia de Fátima Sierra Bugin
 //Luan Cecon Moreton
 //Vinícius Leal Pereira
-//
+//Lucas Abreu Accarini
 
 //
 
@@ -98,10 +98,13 @@ void procurarMed(Medicamento medicamentos[], int count) {
 
     char medBusca[20]; // Array para armazenar o nome do medicamento a ser procurado
     int medEncontrado = 0;  // Verifica se o medicamento foi encontrado
-    
+    Medicamento* encontrados = (Medicamento*) malloc(count * sizeof(Medicamento));  // Lista temporária de medicamentos encontrados
+    int encontradosCount = 0;  // Contador de medicamentos encontrados
+
+
     //criar uma lista temporaria para receber o medicamento encontrado e depois jogar ele no print
 
-    printf("\nDigite o nome, ID, fabricante ou lote do medicamento que deseja procurar: \n");
+    printf("\nDigite o nome, ID, fabricante ou lote do medicamento que deseja procurar: ");
     scanf(" %[^\n]", medBusca);
 
     for (int i = 0; i < count; i++) {
@@ -111,24 +114,30 @@ void procurarMed(Medicamento medicamentos[], int count) {
             strcmp(medicamentos[i].fabr, medBusca) == 0 || 
             medicamentos[i].lote == atoi(medBusca)
         ){
-            printf("\n---------------------------------------------\n");
-            printf("\nUm ou mais medicamento(s) encontrado!\n");
-            printf("\n---------------------------------------------\n");
-            printf("\nID: %d\n", medicamentos[i].id);
-            printf("\nLote: %d\n", medicamentos[i].lote);
-            printf("\nNome: %s\n", medicamentos[i].nome);
-            printf("\nDescrição: %s\n", medicamentos[i].desc);
-            printf("\nFabricante: %s\n", medicamentos[i].fabr);
-            printf("\nValidade: %s\n", medicamentos[i].validade);
-            printf("\nPreço: %.2f\n", medicamentos[i].preco);
-            printf("\nQuantidade: %d\n", medicamentos[i].quantidade);
-            
-            medEncontrado = 1; // Marca que o medicamento foi encontrado
+            //Adiciona a uma lista temporária
+            encontrados[encontradosCount] = medicamentos[i];
+            encontradosCount++;
+            medEncontrado = 1; // Marca que pelo menos um medicamento foi encontrado
         }
     }
-    if (!medEncontrado) {
-        printf("\nMedicamento não encontrado!\n");
+    // Se pelo menos um medicamento foi encontrado, imprime todos eles
+    if (medEncontrado) {
+        for (int i = 0; i < encontradosCount; i++) {
+            printf("\nID: %d\n", encontrados[i].id);
+            printf("\nLote: %d\n", encontrados[i].lote);
+            printf("\nNome: %s\n", encontrados[i].nome);
+            printf("\nDescrição: %s\n", encontrados[i].desc);
+            printf("\nFabricante: %s\n", encontrados[i].fabr);
+            printf("\nValidade: %s\n", encontrados[i].validade);
+            printf("\nPreço: %.2f\n", encontrados[i].preco);
+            printf("\nQuantidade: %d\n", encontrados[i].quantidade);
+            printf("\n---------------------------------------------\n\n");
+        }
+    } else {
+        printf("\nNenhum medicamento encontrado!\n");
     }
+
+    free(encontrados);  // Libera a memória alocada para a lista temporária
 }
 
 //3 Mostrar
@@ -245,9 +254,9 @@ void editarMeds(Medicamento medicamentos[], int count){
 
 // 5 Deletar
 void deletarMed(Medicamento medicamentos[], int *count) {
-    char nome[50]; // Array para armazenar o nome do medicamento a ser removido
+    char nome[20]; // Array para armazenar o nome do medicamento a ser removido
     int relacao = -1; // Índice começando com -1 para indicar que o medicamento não foi encontrado
-    printf("\nDigite o nome do medicamento que deseja deletar: \n");
+    printf("\nDigite o nome do medicamento que deseja deletar: ");
     scanf(" %[^\n]", nome);
 
     // Busca o medicamento
