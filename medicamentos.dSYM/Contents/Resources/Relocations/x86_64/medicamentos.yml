@@ -1,0 +1,17 @@
+---
+triple:          'x86_64-apple-darwin'
+binary-path:     '/Users/igor/Documents/Coding/USF-Gerenciador-de-Farmacia/medicamentos'
+relocations:
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _salvarMeds, symObjAddr: 0x0, symBinAddr: 0x1000004C0, symSize: 0x90 }
+  - { offsetInCU: 0xF0, offset: 0xF0, size: 0x8, addend: 0x0, symName: _salvarMeds, symObjAddr: 0x0, symBinAddr: 0x1000004C0, symSize: 0x90 }
+  - { offsetInCU: 0x130, offset: 0x130, size: 0x8, addend: 0x0, symName: _carregarMeds, symObjAddr: 0x90, symBinAddr: 0x100000550, symSize: 0xA0 }
+  - { offsetInCU: 0x174, offset: 0x174, size: 0x8, addend: 0x0, symName: _verificarTexto, symObjAddr: 0x130, symBinAddr: 0x1000005F0, symSize: 0xA0 }
+  - { offsetInCU: 0x1B8, offset: 0x1B8, size: 0x8, addend: 0x0, symName: _isNumeric, symObjAddr: 0x1D0, symBinAddr: 0x100000690, symSize: 0x80 }
+  - { offsetInCU: 0x1FC, offset: 0x1FC, size: 0x8, addend: 0x0, symName: _validarData, symObjAddr: 0x250, symBinAddr: 0x100000710, symSize: 0x1A0 }
+  - { offsetInCU: 0x24E, offset: 0x24E, size: 0x8, addend: 0x0, symName: _cadastrarMed, symObjAddr: 0x3F0, symBinAddr: 0x1000008B0, symSize: 0x340 }
+  - { offsetInCU: 0x2BD, offset: 0x2BD, size: 0x8, addend: 0x0, symName: _procurarMed, symObjAddr: 0x730, symBinAddr: 0x100000BF0, symSize: 0x320 }
+  - { offsetInCU: 0x360, offset: 0x360, size: 0x8, addend: 0x0, symName: _mostrarTodos, symObjAddr: 0xA50, symBinAddr: 0x100000F10, symSize: 0x1A0 }
+  - { offsetInCU: 0x3AE, offset: 0x3AE, size: 0x8, addend: 0x0, symName: _editarMeds, symObjAddr: 0xBF0, symBinAddr: 0x1000010B0, symSize: 0x420 }
+  - { offsetInCU: 0x41A, offset: 0x41A, size: 0x8, addend: 0x0, symName: _deletarMed, symObjAddr: 0x1010, symBinAddr: 0x1000014D0, symSize: 0x170 }
+  - { offsetInCU: 0x4A7, offset: 0x4A7, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x1180, symBinAddr: 0x100001640, symSize: 0x22C }
+...

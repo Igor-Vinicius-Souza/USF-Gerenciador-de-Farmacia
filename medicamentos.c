@@ -5,12 +5,15 @@
 //Leticia de Fátima Sierra Bugin
 //Luan Cecon Moreton
 //Vinícius Leal Pereira
+//Lucas Abreu Accarini
 
 //
 
 #include <stdio.h>
 #include <stdlib.h> //Precisa para usar atoi
 #include <string.h>
+#include <ctype.h>  //Precisa para usar isalpha() e isspace()
+#include <ctype.h>  //Precisa para usar isdigit
 
 //Definir um limite de medicamentos
 #define maximo 50
@@ -19,10 +22,10 @@
 typedef struct {
     int id;
     int lote;
-    char nome[50];
-    char desc[50];
-    char fabr[20];
-    char validade[11];
+    char nome[20];
+    char desc[100];
+    char fabr[10];
+    char validade[10];
     float preco;
     int quantidade;
 } Medicamento;
@@ -55,54 +58,136 @@ int carregarMeds(Medicamento medicamentos[]) {
     return count; //Retorna o número de medicamentos
 }
 
+// Função para verificar se o input contém apenas letras e espaços
+int verificarTexto(char *input) {
+    for (int i = 0; i < strlen(input); i++) {
+        if (!isalpha(input[i]) && !isspace(input[i])) {
+            return 0;  // Se encontrar algo que não seja letra ou espaço, retorna 0 (inválido)
+        }
+    }
+    return 1;  // Se o input for válido, retorna 1
+}
+
+int isNumeric(const char *str) {
+    // Verifica se cada caractere da string é um dígito
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (!isdigit(str[i])) {
+            return 0; // Se algum caractere não for um número, retorna falso
+        }
+    }
+    return 1; // Se todos os caracteres forem dígitos, retorna verdadeiro
+}
+
+#include <stdio.h>
+#include <string.h>
+
+// Função para validar a data no formato DD/MM/YYYY
+int validarData(char *data) {
+    if (strlen(data) != 10) return 0; // Verifica se a data tem 10 caracteres
+
+    // Verifica o formato
+    if (data[2] != '/' || data[5] != '/') return 0;
+
+    // Extrai dia, mês e ano
+    int dia = atoi(&data[0]);
+    int mes = atoi(&data[3]);
+    int ano = atoi(&data[6]);
+
+    // Verifica se o dia, mês e ano estão em intervalos válidos
+    if (dia < 1 || dia > 31 || mes < 1 || mes > 12 || ano < 1900) return 0;
+
+    // Verifica meses com 30 dias
+    if ((mes == 4 || mes == 6 || mes == 9 || mes == 11) && dia > 30) return 0;
+
+    // Verifica fevereiro e ano bissexto
+    if (mes == 2) {
+        if ((ano % 4 == 0 && ano % 100 != 0) || (ano % 400 == 0)) {
+            if (dia > 29) return 0; // Ano bissexto
+        } else {
+            if (dia > 28) return 0; // Ano comum
+        }
+    }
+
+    return 1; // Data válida
+}
+
 //1 Cadastrar
-void cadastrarMed(Medicamento medicamentos[], int *count){
-    //Verificar limite de medicamentos
+void cadastrarMed(Medicamento medicamentos[], int *count) {
     if (*count < maximo) {
         Medicamento m;
         m.id = *count + 1;
 
         printf("\nNome do medicamento: ");
-        scanf(" %[^\n]", m.nome); // Permite espaços no nome
+        scanf(" %[^\n]", m.nome);
 
-        printf("\nLote: ");
-        scanf("%d", &m.lote);
+        // Validação do lote
+        char loteStr[10];
+        do {
+            printf("\nLote (número): ");
+            scanf("%s", loteStr);
+            if (!isNumeric(loteStr)) {
+                printf("O lote deve conter apenas números. Tente novamente.\n");
+            }
+        } while (!isNumeric(loteStr));
+        m.lote = atoi(loteStr);  // Converte para inteiro
 
         printf("\nDescrição do medicamento: ");
-        scanf(" %[^\n]", m.desc); // Permite espaços no texto
+        scanf(" %[^\n]", m.desc);
 
         printf("\nFabricante: ");
-        scanf(" %[^\n]", m.fabr); // Permite espaços no texto
-      
-        printf("\nValidade: ");
-        scanf("%10s", m.validade);
+        scanf(" %[^\n]", m.fabr);
 
-        printf("\nPreço: ");
-        scanf("%f", &m.preco);
+        // Validação da validade
+        do {
+            printf("\nValidade (DD/MM/YYYY): ");
+            scanf("%10s", m.validade);
+            if (!validarData(m.validade)) {
+                printf("Data inválida. Tente no formato DD/MM/YYYY.\n");
+            }
+        } while (!validarData(m.validade));
 
-        printf("\nQuantidade: ");
-        scanf("%d", &m.quantidade);
+        // Validação do preço
+        do {
+            printf("\nPreço: ");
+            if (scanf("%f", &m.preco) != 1 || m.preco <= 0) {
+                printf("O preço deve ser um número positivo. Tente novamente.\n");
+                while (getchar() != '\n'); // Limpa o buffer de entrada
+            }
+        } while (m.preco <= 0);
 
-        medicamentos[*count] = m; //Adiciona a lista
+        // Validação da quantidade
+        char quantidadeStr[10];
+        do {
+            printf("\nQuantidade (número): ");
+            scanf("%s", quantidadeStr);
+            if (!isNumeric(quantidadeStr)) {
+                printf("A quantidade deve conter apenas números. Tente novamente.\n");
+            }
+        } while (!isNumeric(quantidadeStr));
+        m.quantidade = atoi(quantidadeStr);  // Converte para inteiro
+
+        medicamentos[*count] = m; // Adiciona à lista
         (*count)++;
 
-        salvarMeds(medicamentos, *count); //Salva os medicamentos
+        salvarMeds(medicamentos, *count); // Salva os medicamentos
     } else {
         printf("Número máximo de medicamentos atingido.");
     }
 }
 
+
 // 2 Procurar
 void procurarMed(Medicamento medicamentos[], int count) {
 
-    //Está funcionando, ele encontra pesquisando por mais de uma coisa, porém ele só encontra 1 medicamento de cada vez.
-    //se tiver dipirona de 2 marcas diferentes por exemplo ele só encontra a primeira
-    //Talvez de pra usar strstr (var, pesquisa) != null
-
-    char medBusca[50]; // Array para armazenar o nome do medicamento a ser procurado
+    char medBusca[20]; // Array para armazenar o nome do medicamento a ser procurado
     int medEncontrado = 0;  // Verifica se o medicamento foi encontrado
+    Medicamento* encontrados = (Medicamento*) malloc(count * sizeof(Medicamento));  // Lista temporária de medicamentos encontrados
+    int encontradosCount = 0;  // Contador de medicamentos encontrados
 
-    printf("\nDigite o nome, ID, fabricante ou lote do medicamento que deseja procurar: \n");
+
+    //criar uma lista temporaria para receber o medicamento encontrado e depois jogar ele no print
+
+    printf("\nDigite o nome, ID, fabricante ou lote do medicamento que deseja procurar: ");
     scanf(" %[^\n]", medBusca);
 
     for (int i = 0; i < count; i++) {
@@ -112,25 +197,30 @@ void procurarMed(Medicamento medicamentos[], int count) {
             strcmp(medicamentos[i].fabr, medBusca) == 0 || 
             medicamentos[i].lote == atoi(medBusca)
         ){
-            printf("\n---------------------------------------------\n");
-            printf("\nUm ou mais medicamento(s) encontrado!\n");
-            printf("\n---------------------------------------------\n");
-            printf("\nID: %d\n", medicamentos[i].id);
-            printf("\nLote: %d\n", medicamentos[i].lote);
-            printf("\nNome: %s\n", medicamentos[i].nome);
-            printf("\nDescrição: %s\n", medicamentos[i].desc);
-            printf("\nFabricante: %s\n", medicamentos[i].fabr);
-            printf("\nValidade: %s\n", medicamentos[i].validade);
-            printf("\nPreço: %.2f\n", medicamentos[i].preco);
-            printf("\nQuantidade: %d\n", medicamentos[i].quantidade);
-            
-            medEncontrado = 1; // Marca que o medicamento foi encontrado
-            break;
+            //Adiciona a uma lista temporária
+            encontrados[encontradosCount] = medicamentos[i];
+            encontradosCount++;
+            medEncontrado = 1; // Marca que pelo menos um medicamento foi encontrado
         }
     }
-    if (!medEncontrado) {
-        printf("\nMedicamento não encontrado!\n");
+    // Se pelo menos um medicamento foi encontrado, imprime todos eles
+    if (medEncontrado) {
+        for (int i = 0; i < encontradosCount; i++) {
+            printf("\nID: %d\n", encontrados[i].id);
+            printf("\nLote: %d\n", encontrados[i].lote);
+            printf("\nNome: %s\n", encontrados[i].nome);
+            printf("\nDescrição: %s\n", encontrados[i].desc);
+            printf("\nFabricante: %s\n", encontrados[i].fabr);
+            printf("\nValidade: %s\n", encontrados[i].validade);
+            printf("\nPreço: %.2f\n", encontrados[i].preco);
+            printf("\nQuantidade: %d\n", encontrados[i].quantidade);
+            printf("\n---------------------------------------------\n\n");
+        }
+    } else {
+        printf("\nNenhum medicamento encontrado!\n");
     }
+
+    free(encontrados);  // Libera a memória alocada para a lista temporária
 }
 
 //3 Mostrar
@@ -247,9 +337,9 @@ void editarMeds(Medicamento medicamentos[], int count){
 
 // 5 Deletar
 void deletarMed(Medicamento medicamentos[], int *count) {
-    char nome[50]; // Array para armazenar o nome do medicamento a ser removido
+    char nome[20]; // Array para armazenar o nome do medicamento a ser removido
     int relacao = -1; // Índice começando com -1 para indicar que o medicamento não foi encontrado
-    printf("\nDigite o nome do medicamento que deseja deletar: \n");
+    printf("\nDigite o nome do medicamento que deseja deletar: ");
     scanf(" %[^\n]", nome);
 
     // Busca o medicamento
