@@ -281,47 +281,59 @@ void editarMeds(Medicamento medicamentos[], int count){
             printf("\n6. Editar preço\n");
             printf("\n7. Editar quantidade\n");
 
-            printf("\n0. Sair\n\n");
+            printf("\n0. Salvar e sair\n\n");
 
             printf("Seleção: ");
             scanf("%d", &sel2);
 
             switch (sel2)
             {
-            //Leticia, quando for mudar aqui arruma os switch case no lugar please?? 😊🙌
-            case 1:
+                case 1:  // Alterar o lote do medicamento
+                printf("Lote: ");
+                scanf(" %d", &medicamentos[i].lote);
+                while (getchar() != '\n');  // Limpa o buffer
+                break;
+
+            case 2:  // Alterar o nome do medicamento
                 printf("Nome: ");
                 scanf(" %[^\n]", medicamentos[i].nome);
+                while (getchar() != '\n');  // Limpa o buffer
                 break;
 
-            case 2:
-                printf("Preço: ");
-                scanf("%f", &medicamentos[i].preco);
-                break;
-
-            case 3:
+            case 3:  // Alterar a descrição do medicamento
                 printf("Descrição: ");
                 scanf(" %[^\n]", medicamentos[i].desc);
+                while (getchar() != '\n');  // Limpa o buffer
                 break;
 
-            case 4:
+            case 4:  // Alterar o fabricante do medicamento
+                printf("Fabricante: ");
+                scanf(" %[^\n]", medicamentos[i].fabr);
+                while (getchar() != '\n');  // Limpa o buffer
+                break;
+
+            case 5:  // Alterar a validade do medicamento
+                printf("Validade: ");
+                scanf("%10s", medicamentos[i].validade);
+                while (getchar() != '\n');  // Limpa o buffer
+                break;
+
+            case 6:  // Alterar o preço do medicamento
+                printf("Preço: ");
+                scanf("%f", &medicamentos[i].preco);
+                while (getchar() != '\n');  // Limpa o buffer
+                break;
+
+            case 7:  // Alterar a quantidade do medicamento
                 printf("Quantidade: ");
                 scanf("%d", &medicamentos[i].quantidade);
+                while (getchar() != '\n');  // Limpa o buffer
                 break;
 
-            case 5:
+            case 0://Sai da aba de alterações
                 break;
 
-            case 6:
-                break;
-
-            case 7:
-                break;
-
-            case 0:
-                break;
-
-            default:
+            default://caso seja inserido outro valor ele retorna como ivalido
                 printf("Opção inválida");
             }
         } while (sel2 != 0);
