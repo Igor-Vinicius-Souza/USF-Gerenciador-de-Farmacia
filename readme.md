@@ -120,7 +120,7 @@ Projeto desenvolvido pelo **Grupo 1**:
 
 ## 🏫 Contexto Acadêmico
 
-Este programa foi criado como projeto para a disciplina **Programação de Computadores** no curso da **Universidade São Francisco (USF)**. Ele demonstra o uso de:
+Este programa foi criado como projeto para a disciplina **Análise e Desenvolvimento de Sistemas** no curso da **Universidade São Francisco (USF)**. Ele demonstra o uso de:
 
 - Estruturas (`struct`) para modelar dados
 - Manipulação de arquivos para persistência de dados
